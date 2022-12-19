@@ -1,23 +1,23 @@
-import 'package:dinajpur_blood_app/App_%20Data/app_color.dart';
+import 'package:dinajpur_blood_app/screens/Authentication_section/login_screen.dart';
+import 'package:dinajpur_blood_app/screens/Authentication_section/set_donor_information.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nb_utils/nb_utils.dart';
-
+import '../../App_ Data/app_color.dart';
 import 'donor_profile.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-final  TextEditingController _email =  TextEditingController();
-final TextEditingController _password = TextEditingController();
-
+class _SignUpState extends State<SignUp> {
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -99,28 +99,36 @@ final TextEditingController _password = TextEditingController();
                   ),
                   child: Center(
                     child: Text(
-                      "Log In",
+                      "Sign Up",
                       style: TextStyle(
                           color: AppData().whiteColor,
                           fontSize: height / 20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                ).onTap(()async{
-                  if(_email.text.isEmptyOrNull){
+                ).onTap(() async {
+                  if (_email.text.isEmptyOrNull) {
                     toast("Enter Email Address");
-                  }
-                  else if(_password.text.isEmptyOrNull){
+                  } else if (_password.text.isEmptyOrNull) {
                     toast("Enter Password");
-                  }
-                  else if(_password.text.length < 6){
+                  }  else if(_password.text.length < 6){
                     toast("Password at least 6 digit");
                   }
-                  else{
-                    EasyLoading.show(status: "Signing In");
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email.text, password: _password.text);
-                    EasyLoading.showSuccess("Successful");
-                    const DonorProfileScreen().launch(context,isNewTask: true);
+                  else {
+                    try {
+                      EasyLoading.show(status: "Signing Up");
+                      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                          email: _email.text, password: _password.text);
+                      EasyLoading.showSuccess("Sign up Successful");
+                       RegistrationScreen()
+                          .launch(context, isNewTask: true);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        EasyLoading.showError("The password provided is too weak");
+                      } else if (e.code == 'email-already-in-use') {
+                         EasyLoading.showError("The account already exists for that email");
+                      }
+                    }
                   }
                 }),
               ),
@@ -129,10 +137,24 @@ final TextEditingController _password = TextEditingController();
           const SizedBox(
             height: 10,
           ),
-          Text(
-            "Forget Password .?",
-            style: TextStyle(color: AppData().whiteColor.withOpacity(.8)),
-          ).onTap(() {})
+          Row(
+            children: [
+              Text(
+                "Already have an Account ?",
+                style: TextStyle(color: AppData().whiteColor.withOpacity(.8)),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Log in",
+                style:
+                    TextStyle(color: Colors.blue.withOpacity(.8), fontSize: 18),
+              ).onTap(() {
+              const LoginScreen().launch(context);
+              }),
+            ],
+          )
         ],
       ),
     );

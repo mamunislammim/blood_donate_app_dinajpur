@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "873114602591",
+    "firebase_url": "https://dinajpur-blood-donate-app-default-rtdb.firebaseio.com",
+    "project_id": "dinajpur-blood-donate-app",
+    "storage_bucket": "dinajpur-blood-donate-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873114602591:android:3bc01e17a15080ac5d1fea",
+        "android_client_info": {
+          "package_name": "com.mamun.dinajpur_blood_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873114602591-ia8m7rb1ftgqnu787dlcl5jb9sioi4vm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjAMx7EEadYYV5GxZNBtASMd8qJ-mauE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873114602591-ia8m7rb1ftgqnu787dlcl5jb9sioi4vm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,7 +4,6 @@ import 'package:dinajpur_blood_app/screens/tips_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import '../App_ Data/app_color.dart';
 import 'emergency_help_screen.dart';
 import 'Authentication_section/give_blood.dart';
@@ -46,10 +45,10 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     options: CarouselOptions(
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 1),
-                       // autoPlayCurve: Curves.elasticIn,
-                       // clipBehavior: Clip.antiAliasWithSaveLayer
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 5),
+                      // autoPlayCurve: Curves.elasticIn,
+                      // clipBehavior: Clip.antiAliasWithSaveLayer
                     ),
                   ),
                 ),
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
 
                 // Info
                 Padding(
-                  padding: const EdgeInsets.only(top: 8,left: 8,right: 8),
+                  padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                   child: Text(
                     "Info",
                     style: TextStyle(
@@ -112,7 +111,9 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                              ).onTap((){const FindBloodScreen().launch(context);}),
+                              ).onTap(() {
+                                const FindBloodScreen().launch(context);
+                              }),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -143,7 +144,9 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                              ).onTap((){const GiveBlood().launch(context);}),
+                              ).onTap(() {
+                                const GiveBlood().launch(context);
+                              }),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -174,7 +177,9 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                              ).onTap((){const EmergencyHelpScreen().launch(context);}),
+                              ).onTap(() {
+                                const EmergencyHelpScreen().launch(context);
+                              }),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -196,7 +201,9 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                              ).onTap((){const TipsScreen().launch(context);}),
+                              ).onTap(() {
+                                const TipsScreen().launch(context);
+                              }),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -227,8 +234,7 @@ class _HomePageState extends State<HomePage> {
                 TextField(
                   decoration: InputDecoration(
                       hintText: "Post here..",
-                      prefixIcon:
-                          Icon(Icons.edit, color: AppData().whiteColor),
+                      prefixIcon: Icon(Icons.edit, color: AppData().whiteColor),
                       hintStyle: TextStyle(color: AppData().whiteColor),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -246,106 +252,45 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 // see Post
-                Column(
-                  children: [
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[1]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: height / 3,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(Images().slideImages[0]),
-                              fit: BoxFit.fill)),
-                    ),
-                  ],
+                ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: Images().slideImages.length,
+                  itemBuilder: (_, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Card(
+                        color: Colors.grey,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: height / 3,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.black, width: 3),
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(
+                                        Images().slideImages[index],
+                                      ))),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "When the user selects an option from the dropdown list it displays the option on the button. If we want to ",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 )
               ],
             ),

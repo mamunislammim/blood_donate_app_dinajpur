@@ -1,5 +1,5 @@
 import 'package:dinajpur_blood_app/App_%20Data/app_color.dart';
-import 'package:dinajpur_blood_app/screens/Authentication_section/registration_screen.dart';
+ import 'package:dinajpur_blood_app/screens/Authentication_section/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -20,8 +20,10 @@ class _GiveBloodState extends State<GiveBlood> {
 
     return Scaffold(
       backgroundColor: AppData().mainColor,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: AppData().appBarColor,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +87,7 @@ class _GiveBloodState extends State<GiveBlood> {
               ),
             ],
           ).onTap((){
-            const RegistrationScreen().launch(context);
+            const SignUp().launch(context);
           }),
         ],
       ),
