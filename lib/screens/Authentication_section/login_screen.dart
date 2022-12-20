@@ -119,8 +119,11 @@ final TextEditingController _password = TextEditingController();
                   else{
                     EasyLoading.show(status: "Signing In");
                     await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email.text, password: _password.text);
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('email', _email.text);
+                    var tokens = prefs.getString('email');
                     EasyLoading.showSuccess("Successful");
-                    const DonorProfileScreen().launch(context,isNewTask: true);
+                      DonorProfileScreen(token: tokens.toString(),).launch(context,isNewTask: true);
                   }
                 }),
               ),

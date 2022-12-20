@@ -119,6 +119,10 @@ class _SignUpState extends State<SignUp> {
                       EasyLoading.show(status: "Signing Up");
                       await FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: _email.text, password: _password.text);
+
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setString('email', _email.text);
+
                       EasyLoading.showSuccess("Sign up Successful");
                        RegistrationScreen()
                           .launch(context, isNewTask: true);

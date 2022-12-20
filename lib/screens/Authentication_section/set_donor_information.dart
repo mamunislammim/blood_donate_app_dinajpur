@@ -30,7 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String? _bloodGroup;
   String? _selectGender;
   XFile? images;
-  String? donorImageUrl;
+  String donorImageUrl = "null";
 
   Future<void> takeImage() async {
     images = await _picker.pickImage(source: ImageSource.gallery);
@@ -411,8 +411,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   _address.text,
                   donorImageUrl);
               FirebaseDatabase.instance.ref("Donor Information").push().set(models.toJson());
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setString('email', _email.text);
+              var tokens = prefs.getString('email');
               EasyLoading.showSuccess("Successful");
-              const DonorProfileScreen().launch(context, isNewTask: true);
+                DonorProfileScreen(token: tokens.toString(),).launch(context, isNewTask: true);
 
             }
           }),

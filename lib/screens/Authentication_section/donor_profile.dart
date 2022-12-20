@@ -1,16 +1,16 @@
 import 'package:dinajpur_blood_app/App_%20Data/app_color.dart';
-import 'package:dinajpur_blood_app/App_%20Data/images.dart';
 import 'package:dinajpur_blood_app/Models/setDonorData.dart';
 import 'package:dinajpur_blood_app/State_management/riverpod.dart';
+import 'package:dinajpur_blood_app/screens/Authentication_section/edit_profile.dart';
 import 'package:dinajpur_blood_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-import 'edit_profile.dart';
-
 class DonorProfileScreen extends StatefulWidget {
-  const DonorProfileScreen({Key? key}) : super(key: key);
+  const DonorProfileScreen({Key? key, required this.token}) : super(key: key);
+
+  final String token;
 
   @override
   State<DonorProfileScreen> createState() => _DonorProfileScreenState();
@@ -20,75 +20,80 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: const CircleAvatar(
-          backgroundColor: Colors.red,
-          child: Icon(Icons.arrow_back),
+        leading: CircleAvatar(
+          backgroundColor: AppData().appBarColor,
+          child: const Icon(Icons.arrow_back),
         ).onTap(() {
           const HomePage().launch(context);
         }),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-                child: Text(
-              "Edit Profile",
-              style: TextStyle(
-                  color: AppData().whiteColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17),
-            )),
-          ).onTap(() {
-            const EditProfileScreen().launch(context);
-          })
-        ],
       ),
-      // backgroundColor: AppData().mainColor,
       body: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          AsyncValue<List<SetDonorDataModels>> donorData = ref.watch(donorDataRiverpod);
-          return donorData.when(
-              data: (data){
-                return ListView(
+          AsyncValue<List<SetDonorDataModels>> donorData =
+              ref.watch(donorDataRiverpod);
+         // ref.refresh(donorDataRiverpod);
+
+          return donorData.when(data: (data) {
+            List<SetDonorDataModels> user = [];
+            for (var element in data) {
+              if (element.donorEmail.toString() == widget.token) {
+                user.add(element);
+              }
+            }
+            return RefreshIndicator(
+                child: ListView(
                   padding: const EdgeInsets.only(top: 25),
                   children: [
                     Stack(
                       clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.bottomStart,
+                      alignment: AlignmentDirectional.bottomEnd,
                       children: [
                         Container(
                           height: 150,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               image: DecorationImage(
-                                  image: NetworkImage(Images().slideImages[2]),
+                                  opacity: .8,
+                                  image: NetworkImage(
+                                      "https://media.gettyimages.com/id/969226260/vector/world-blood-donor-day-on-black-background-with-paper-cut-text-vector-illustration.jpg?s=612x612&w=gi&k=20&c=VfgCRfzaaTBenMFexSPdb5i5V0A9kvVQPpm8QP8gG8M="),
                                   fit: BoxFit.fill)),
                         ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10, right: 8),
+                          padding: const EdgeInsets.only(
+                              top: 3, bottom: 3, right: 3, left: 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.red.withOpacity(.8)),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon((Icons.edit)),
+                              Text(
+                                "Edit Profile",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ).onTap(() {
+                          EditProfileScreen(
+                            donorData: user,
+                          ).launch(context);
+                        }),
                         Positioned(
-                          left: 10,
+                          left: 5,
                           bottom: -55,
                           child: CircleAvatar(
                             radius: 50,
                             backgroundColor: AppData().appBarColor,
-                            backgroundImage: NetworkImage(data[1].donorImagesUrl.toString()),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5, right: 10),
-                          child: Text(
-                            data[1].donorName.toString(),
-                            style:
-                            TextStyle(color: AppData().mainTextColor, fontSize: 20),
+                            backgroundImage:
+                                NetworkImage(user[0].donorImagesUrl.toString()),
                           ),
                         ),
                       ],
@@ -99,7 +104,20 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 5, right: 10),
                           child: Text(
-                            data[1].donorEmail.toString(),
+                            user[0].donorName.toString(),
+                            style: TextStyle(
+                                color: AppData().mainTextColor, fontSize: 20),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5, right: 10),
+                          child: Text(
+                            user[0].donorEmail.toString(),
                             style: TextStyle(
                                 color: AppData().mainTextColor.withOpacity(.7),
                                 fontSize: 15),
@@ -120,9 +138,9 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                               color: Colors.green,
                             ),
                             Text(
-                              data[1].donorPhone.toString(),
-                              style:
-                              TextStyle(color: AppData().mainTextColor, fontSize: 15),
+                              user[0].donorPhone.toString(),
+                              style: TextStyle(
+                                  color: AppData().mainTextColor, fontSize: 15),
                             ),
                           ],
                         ),
@@ -133,9 +151,9 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                               color: Colors.red,
                             ),
                             Text(
-                              data[1].donorBloodGroup.toString(),
-                              style:
-                              TextStyle(color: AppData().mainTextColor, fontSize: 15),
+                              user[0].donorBloodGroup.toString(),
+                              style: TextStyle(
+                                  color: AppData().mainTextColor, fontSize: 15),
                             ),
                           ],
                         ),
@@ -149,9 +167,9 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                               width: 5,
                             ),
                             Text(
-                              data[1].donorGender.toString(),
-                              style:
-                              TextStyle(color: AppData().mainTextColor, fontSize: 15),
+                              user[0].donorGender.toString(),
+                              style: TextStyle(
+                                  color: AppData().mainTextColor, fontSize: 15),
                             ),
                           ],
                         ),
@@ -201,11 +219,12 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                                     height: height / 3,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: Colors.black, width: 3),
+                                        border: Border.all(
+                                            color: Colors.black, width: 3),
                                         image: DecorationImage(
                                             fit: BoxFit.fill,
                                             image: NetworkImage(
-                                              Images().slideImages[3],
+                                              user[0].donorImagesUrl.toString(),
                                             ))),
                                   ),
                                   const Padding(
@@ -222,18 +241,23 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                               ),
                             ),
                           );
-                        })
+                        }).visible(user[0].donorImagesUrl.toString() != "null"),
                   ],
-                );
-              },
-              error: (e,stack){
-                return Center(child: Text(e.toString()),);
-              },
-              loading: (){return const Center(child: CircularProgressIndicator(),);}
-          );
+                ),
+                onRefresh: () {
+                  return Future<void>.delayed(const Duration(seconds: 2));
+                });
+          }, error: (e, stack) {
+            return Center(
+              child: Text(e.toString()),
+            );
+          }, loading: () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
         },
-
-      )
+      ),
     );
   }
 }

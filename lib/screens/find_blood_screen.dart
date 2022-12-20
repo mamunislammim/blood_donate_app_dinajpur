@@ -1,7 +1,6 @@
 import 'package:dinajpur_blood_app/App_%20Data/app_color.dart';
  import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import 'blood_donor_list.dart';
 
 class FindBloodScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class _FindBloodScreenState extends State<FindBloodScreen> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppData().mainColor,
+     // backgroundColor: AppData().mainColor,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -55,10 +54,11 @@ class _FindBloodScreenState extends State<FindBloodScreen> {
                     color: AppData().whiteColor, fontSize: height / 10),
               )),
             ).onTap(() {
-
-              const BloodDonorList().launch(context);
+                BloodDonorList(getBloodGroup: AppData().bloodGroup[index],).launch(context);
             });
           }),
     );
   }
 }
+
+
