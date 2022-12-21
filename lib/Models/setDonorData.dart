@@ -28,9 +28,9 @@ class SetDonorDataModels {
     donorAddress = json["donorAddress"];
     donorImagesUrl = json["donorImagesUrl"];
   }
-  Map<String, dynamic> toJson(){
-    final map= <String,dynamic>{};
-    map['donorName']= donorName;
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['donorName'] = donorName;
     map['donorEmail'] = donorEmail;
     map['donorPhone'] = donorPhone;
     map['donorGender'] = donorGender;
@@ -42,3 +42,33 @@ class SetDonorDataModels {
     return map;
   }
 }
+
+class DonorPostModels {
+  String? donorEmail;
+  String? donorImage1;
+  String? donorImage2;
+  String? donorPost;
+  String? postDate;
+
+  DonorPostModels(this.donorEmail, this.donorImage1, this.donorImage2,
+      this.donorPost, this.postDate);
+
+  DonorPostModels.fromJson(dynamic json) {
+    donorEmail = json['donorEmail'];
+    donorImage1 = json['donorImage1'];
+    donorImage2 = json['donorImage2'];
+    donorPost = json['donorPost'];
+    postDate = json['postDate'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['donorEmail'] = donorEmail;
+    map['donorImage1'] = donorImage1;
+    map['donorImage2'] = donorImage2;
+    map['donorPost'] = donorPost;
+    map['postDate'] = postDate;
+    return map;
+  }
+}
+

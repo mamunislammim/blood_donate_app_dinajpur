@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nb_utils/nb_utils.dart';
-import '../App_ Data/app_color.dart';
+import '../App_ Data/app_data.dart';
 import 'Authentication_section/give_blood.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(top: 5, right: 10),
               child: CircleAvatar(
                 backgroundColor: Colors.red,
-                backgroundImage: AssetImage("images/user.png"),
+                backgroundImage: AssetImage("images/userIcon.png"),
               ),
             ).onTap(() {})
           ],
@@ -240,30 +240,54 @@ class _HomePageState extends State<HomePage> {
                       height: width / 2.4,
                       width: width / 2.1,
                       child: Card(
-                        color: Colors.white,
+                        surfaceTintColor: Colors.greenAccent,
+                        shadowColor: AppData().mainColor,
+                        elevation: 7,
+                        color: AppData().whiteColor,
                         shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
+                            borderSide: BorderSide(
+                              color: AppData().whiteColor,
+                              width: 5,
+                            )),
                         child: Center(
                             child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                                // "Find",
-                                "রক্ত",
-                                style: GoogleFonts.aBeeZee(
-                                    textStyle: TextStyle(
-                                        color: AppData().mainTextColor,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold))),
-                            Text("খুঁজুন",
-                                // "Blood",
-                                style: GoogleFonts.acme(
-                                    textStyle: TextStyle(
-                                        color: AppData().mainTextColor,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold))),
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage(
+                                          "images/searchBlood.png"))),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Find",
+                                    // "রক্ত",
+                                    style: GoogleFonts.acme(
+                                        textStyle: TextStyle(
+                                      color: AppData().mainTextColor,
+                                      fontSize: 25,
+                                    ))),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                    // "খুঁজুন",
+                                    "Blood",
+                                    style: GoogleFonts.acme(
+                                        textStyle: TextStyle(
+                                      color: AppData().mainTextColor,
+                                      fontSize: 25,
+                                    ))),
+                              ],
+                            ),
                           ],
                         )),
                       ),
@@ -274,28 +298,53 @@ class _HomePageState extends State<HomePage> {
                       height: width / 2.4,
                       width: width / 2.1,
                       child: Card(
-                        color: Colors.white,
+                        surfaceTintColor: Colors.greenAccent,
+                        shadowColor: AppData().mainColor,
+                        elevation: 7,
+                        color: AppData().whiteColor,
                         shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
+                            borderSide: BorderSide(
+                              color: AppData().whiteColor,
+                              width: 5,
+                            )),
                         child: Center(
                             child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              "রক্ত",
-                              style: TextStyle(
-                                  color: AppData().mainTextColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30),
+                            Container(
+                              height: 80,
+                              width: 145,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image:
+                                          AssetImage("images/giveBlood.png"))),
                             ),
-                            Text(
-                              "দিন",
-                              style: TextStyle(
-                                  color: AppData().mainTextColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Give",
+                                    // "রক্ত",
+                                    style: GoogleFonts.acme(
+                                        textStyle: TextStyle(
+                                      color: AppData().mainTextColor,
+                                      fontSize: 25,
+                                    ))),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                    // "খুঁজুন",
+                                    "Blood",
+                                    style: GoogleFonts.acme(
+                                        textStyle: TextStyle(
+                                      color: AppData().mainTextColor,
+                                      fontSize: 25,
+                                    ))),
+                              ],
                             ),
                           ],
                         )),
@@ -312,29 +361,39 @@ class _HomePageState extends State<HomePage> {
                       height: width / 2.4,
                       width: width / 2.1,
                       child: Card(
-                        color: Colors.white,
+                        surfaceTintColor: Colors.greenAccent,
+                        shadowColor: AppData().mainColor,
+                        elevation: 7,
+                        color: AppData().whiteColor,
                         shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
+                            borderSide: BorderSide(
+                              color: AppData().whiteColor,
+                              width: 5,
+                            )),
                         child: Center(
                             child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              "জরুরী",
-                              style: TextStyle(
-                                  color: AppData().mainTextColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30),
+                            Container(
+                              height: 80,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image:
+                                          AssetImage("images/emergency.png"))),
                             ),
                             Text(
-                              "সেবা",
-                              style: TextStyle(
+                                // "খুঁজুন",
+                                "Emergency",
+                                style: GoogleFonts.acme(
+                                    textStyle: TextStyle(
                                   color: AppData().mainTextColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30),
-                            ),
+                                  fontSize: 25,
+                                ))),
                           ],
                         )),
                       ),
@@ -345,17 +404,39 @@ class _HomePageState extends State<HomePage> {
                       height: width / 2.4,
                       width: width / 2.1,
                       child: Card(
-                        color: Colors.white,
+                        surfaceTintColor: Colors.greenAccent,
+                        shadowColor: AppData().mainColor,
+                        elevation: 7,
+                        color: AppData().whiteColor,
                         shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
+                            borderSide: BorderSide(
+                              color: AppData().whiteColor,
+                              width: 5,
+                            )),
                         child: Center(
-                            child: Text(
-                          "টিপস",
-                          style: TextStyle(
-                              color: AppData().mainTextColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30),
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image:
+                                          AssetImage("images/tipsIcon.png"))),
+                            ),
+                            Text("Tips",
+                                // "রক্ত",
+                                style: GoogleFonts.acme(
+                                    textStyle: TextStyle(
+                                  color: AppData().mainTextColor,
+                                  fontSize: 25,
+                                ))),
+                          ],
                         )),
                       ),
                     ).onTap(() {
@@ -364,10 +445,12 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
 
-                const SizedBox(
-                  width: 10,
+                const Divider(
+                  thickness: 10,
                 ),
-
+                const SizedBox(
+                  height: 50,
+                ),
                 // Post
                 Padding(
                   padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
@@ -403,109 +486,157 @@ class _HomePageState extends State<HomePage> {
 
                 // see Post
                 Consumer(builder: (_, ref, watch) {
-                  AsyncValue<List<SetDonorDataModels>> models =
-                      ref.watch(donorDataRiverpod);
-                  return models.when(data: (data) {
+                  AsyncValue<List<DonorPostModels>> model =
+                  ref.watch(postRiverpod);
+                  return model.when(data: (post) {
                     return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (_, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Card(
-                            color: Colors.grey,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: height / 3,
-                                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.only(top: 10),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: post.length,
+                        itemBuilder: (_, index) {
+                          return Card(
+                            margin: const EdgeInsets.only(bottom: 20,left: 7,right: 7),
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        // CircleAvatar(
+                                        //   radius: 30,
+                                        //   backgroundColor: AppData().mainColor2.withOpacity(.3),
+                                        // ),
+
+                                        Text(
+                                          "Date : ",
+                                          style: TextStyle(
+                                              color:
+                                              AppData().mainColor2,
+                                              fontSize: 28,
+                                              fontWeight:
+                                              FontWeight.bold),
+                                        ),
+                                        Text(
+                                          post[index]
+                                              .postDate
+                                              .toString()
+                                              .substring(0, 15),
+                                          style: TextStyle(
+                                              color:
+                                              AppData().mainColor2,
+                                              fontSize: 17,
+                                              fontWeight:
+                                              FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: height / 3,
+                                          decoration: BoxDecoration(
+                                            color: AppData()
+                                                .mainColor2
+                                                .withOpacity(.3),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(
+                                                10),
                                             border: Border.all(
-                                                color: Colors.black, width: 3),
-                                            image: DecorationImage(
+                                                color: AppData()
+                                                    .mainColor2
+                                                    .withOpacity(.08),
+                                                width: 5),
+                                            image: post[index]
+                                                .donorImage1
+                                                .toString() ==
+                                                "null"
+                                                ? const DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: AssetImage(
+                                                    "images/noImage1.png"))
+                                                : DecorationImage(
                                                 fit: BoxFit.fill,
                                                 image: NetworkImage(
-                                                  data[index]
-                                                      .donorImagesUrl
+                                                  post[index]
+                                                      .donorImage1
                                                       .toString(),
-                                                ))),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: height / 6,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 3),
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: NetworkImage(
-                                                      data[index]
-                                                          .donorImagesUrl
-                                                          .toString(),
-                                                    ))),
+                                                )),
                                           ),
-                                          Container(
-                                            height: height / 6,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 3),
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: NetworkImage(
-                                                      data[index]
-                                                          .donorImagesUrl
-                                                          .toString(),
-                                                    ))),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                      "When the user selects an option from the dropdown list it displays the option on the button. If we want to ",
-                                      style: GoogleFonts.kameron(
-                                        textStyle: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17),
-                                      )),
-                                )
-                              ],
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: height / 3,
+                                          decoration: BoxDecoration(
+                                            color: AppData()
+                                                .mainColor2
+                                                .withOpacity(.3),
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                10),
+                                            border: Border.all(
+                                                color: AppData()
+                                                    .mainColor2
+                                                    .withOpacity(.08),
+                                                width: 5),
+                                            image: post[index]
+                                                .donorImage1
+                                                .toString() ==
+                                                "null"
+                                                ? const DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: AssetImage(
+                                                    "images/noImage1.png"))
+                                                : DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: NetworkImage(
+                                                  post[index]
+                                                      .donorImage2
+                                                      .toString(),
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        post[index]
+                                            .donorPost
+                                            .toString(),
+                                        style: GoogleFonts.kameron(
+                                          textStyle:   TextStyle(
+                                              color: AppData().mainColor2,
+                                              fontWeight:
+                                              FontWeight.bold,
+                                              fontSize: 17),
+                                        )),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ).visible(
-                            data[index].donorImagesUrl.toString() != "null");
-                      },
-                    );
+                          );
+                        });
                   }, error: (e, stack) {
-                    return Center(
-                      child: Text(e.toString()),
-                    );
+                    return Text(e.toString());
                   }, loading: () {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   });
                 })
-              ],
+               ],
             ),
           ),
         ),

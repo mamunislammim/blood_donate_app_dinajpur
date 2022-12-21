@@ -1,16 +1,19 @@
-import 'package:dinajpur_blood_app/App_%20Data/app_color.dart';
+import 'package:dinajpur_blood_app/App_%20Data/app_data.dart';
 import 'package:dinajpur_blood_app/Models/setDonorData.dart';
 import 'package:dinajpur_blood_app/State_management/riverpod.dart';
 import 'package:dinajpur_blood_app/screens/Authentication_section/edit_profile.dart';
 import 'package:dinajpur_blood_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class DonorProfileScreen extends StatefulWidget {
-  const DonorProfileScreen({Key? key, required this.token}) : super(key: key);
+import '../post_screen.dart';
 
-  final String token;
+class DonorProfileScreen extends StatefulWidget {
+  const DonorProfileScreen({Key? key, required this.getTokens})
+      : super(key: key);
+  final String getTokens;
 
   @override
   State<DonorProfileScreen> createState() => _DonorProfileScreenState();
@@ -20,7 +23,7 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    // double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -34,230 +37,399 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          AsyncValue<List<SetDonorDataModels>> donorData =
-              ref.watch(donorDataRiverpod);
-         // ref.refresh(donorDataRiverpod);
-
-          return donorData.when(data: (data) {
-            List<SetDonorDataModels> user = [];
-            for (var element in data) {
-              if (element.donorEmail.toString() == widget.token) {
-                user.add(element);
-              }
-            }
-            return RefreshIndicator(
-                child: ListView(
-                  padding: const EdgeInsets.only(top: 25),
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.bottomEnd,
+      backgroundColor: AppData().mainColor2.withOpacity(.3),
+      body: Consumer(builder: (_, ref, watch) {
+        AsyncValue<List<SetDonorDataModels>> model =
+            ref.watch(donorDataRiverpod);
+        return model.when(data: (data) {
+          return RefreshIndicator(
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemCount: data.length,
+                  itemBuilder: (_, index) {
+                    return Column(
                       children: [
-                        Container(
-                          height: 150,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  opacity: .8,
-                                  image: NetworkImage(
-                                      "https://media.gettyimages.com/id/969226260/vector/world-blood-donor-day-on-black-background-with-paper-cut-text-vector-illustration.jpg?s=612x612&w=gi&k=20&c=VfgCRfzaaTBenMFexSPdb5i5V0A9kvVQPpm8QP8gG8M="),
-                                  fit: BoxFit.fill)),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10, right: 8),
-                          padding: const EdgeInsets.only(
-                              top: 3, bottom: 3, right: 3, left: 3),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.red.withOpacity(.8)),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon((Icons.edit)),
-                              Text(
-                                "Edit Profile",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ).onTap(() {
-                          EditProfileScreen(
-                            donorData: user,
-                          ).launch(context);
-                        }),
-                        Positioned(
-                          left: 5,
-                          bottom: -55,
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundColor: AppData().appBarColor,
-                            backgroundImage:
-                                NetworkImage(user[0].donorImagesUrl.toString()),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5, right: 10),
-                          child: Text(
-                            user[0].donorName.toString(),
-                            style: TextStyle(
-                                color: AppData().mainTextColor, fontSize: 20),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5, right: 10),
-                          child: Text(
-                            user[0].donorEmail.toString(),
-                            style: TextStyle(
-                                color: AppData().mainTextColor.withOpacity(.7),
-                                fontSize: 15),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
+                        Stack(
+                          clipBehavior: Clip.none,
+                          alignment: AlignmentDirectional.bottomEnd,
                           children: [
-                            const Icon(
-                              Icons.call,
-                              color: Colors.green,
+                            Container(
+                              height: 150,
+                              decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      opacity: .8,
+                                      image: NetworkImage(
+                                          "https://media.gettyimages.com/id/969226260/vector/world-blood-donor-day-on-black-background-with-paper-cut-text-vector-illustration.jpg?s=612x612&w=gi&k=20&c=VfgCRfzaaTBenMFexSPdb5i5V0A9kvVQPpm8QP8gG8M="),
+                                      fit: BoxFit.fill)),
                             ),
-                            Text(
-                              user[0].donorPhone.toString(),
-                              style: TextStyle(
-                                  color: AppData().mainTextColor, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.bloodtype,
-                              color: Colors.red,
-                            ),
-                            Text(
-                              user[0].donorBloodGroup.toString(),
-                              style: TextStyle(
-                                  color: AppData().mainTextColor, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.account_circle_sharp,
-                              color: Colors.red,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              user[0].donorGender.toString(),
-                              style: TextStyle(
-                                  color: AppData().mainTextColor, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AppTextField(
-                        textFieldType: TextFieldType.NAME,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.edit),
-                            hintText: "Post here...",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      " Your Posts",
-                      style: TextStyle(
-                          color: AppData().mainTextColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 10,
-                        itemBuilder: (_, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Card(
-                              color: Colors.grey,
-                              child: Column(
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(bottom: 10, right: 8),
+                              padding: const EdgeInsets.only(
+                                  top: 3, bottom: 3, right: 3, left: 3),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: AppData().appBarColor),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Container(
-                                    height: height / 3,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Colors.black, width: 3),
-                                        image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(
-                                              user[0].donorImagesUrl.toString(),
-                                            ))),
+                                  Icon(
+                                    Icons.edit,
+                                    color: AppData().mainTextColor,
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "When the user selects an option from the dropdown list it displays the option on the button. If we want to ",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                  Text(
+                                    "Edit Profile",
+                                    style: GoogleFonts.acme(
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          color: AppData()
+                                              .whiteColor
+                                              .withOpacity(.8)),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
+                            ).onTap(() {
+                              EditProfileScreen(
+                                donorData: data[index],
+                              ).launch(context);
+                            }),
+                            Positioned(
+                                left: 5,
+                                bottom: -55,
+                                child: CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: AppData().appBarColor,
+                                    backgroundImage: data[index]
+                                                .donorImagesUrl
+                                                .toString() !=
+                                            "null"
+                                        ? NetworkImage(data[index]
+                                            .donorImagesUrl
+                                            .toString())
+                                        : const NetworkImage(
+                                            "https://www.shareicon.net/data/2016/05/26/771188_man_512x512.png"))),
+                          ],
+                        ),
+                        Row(
+                          textDirection: TextDirection.ltr,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Expanded(
+                              flex: 3,
+                              child: Text(""),
                             ),
-                          );
-                        }).visible(user[0].donorImagesUrl.toString() != "null"),
-                  ],
-                ),
-                onRefresh: () {
-                  return Future<void>.delayed(const Duration(seconds: 2));
-                });
-          }, error: (e, stack) {
-            return Center(
-              child: Text(e.toString()),
-            );
-          }, loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          });
-        },
-      ),
+                            Expanded(
+                              flex: 6,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, right: 10),
+                                child: Text(
+                                  data[index].donorName.toString(),
+                                  style: GoogleFonts.epilogue(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: AppData()
+                                            .mainColor2
+                                            .withOpacity(.8)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5, right: 10),
+                              child: Text(
+                                data[index].donorEmail.toString(),
+                                style: GoogleFonts.anaheim(
+                                  textStyle: TextStyle(
+                                      fontSize: 17,
+                                      color: AppData()
+                                          .mainTextColor
+                                          .withOpacity(.8)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.call,
+                                  color: Colors.green,
+                                ),
+                                Text(
+                                  data[index].donorPhone.toString(),
+                                  style: GoogleFonts.marvel(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 19,
+                                        color: AppData()
+                                            .mainTextColor
+                                            .withOpacity(.8)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.bloodtype,
+                                  color: Colors.red,
+                                ),
+                                Text(
+                                  data[index].donorBloodGroup.toString(),
+                                  style: GoogleFonts.marvel(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: AppData()
+                                            .mainTextColor
+                                            .withOpacity(.8)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.account_circle_sharp,
+                                  color: Colors.red,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  data[index].donorGender.toString(),
+                                  style: GoogleFonts.marvel(
+                                    textStyle: TextStyle(
+                                        fontSize: 20,
+                                        color: AppData()
+                                            .mainTextColor
+                                            .withOpacity(.8)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+
+                        Card(
+                          surfaceTintColor: Colors.greenAccent,
+                          shadowColor: AppData().mainColor2,
+                          elevation: 7,
+                          color: AppData().mainColor,
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppData().mainColor,
+                                width: 5,
+                              )),
+                          child: Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Create a Post",
+                                // "রক্ত",
+                                style: GoogleFonts.aubrey(
+                                    textStyle: TextStyle(
+                                        color: AppData().whiteColor,
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold))),
+                          )),
+                        ).onTap(() {
+                          PostScreen(
+                            donorEmail: data[index].donorEmail.toString(),
+                          ).launch(context);
+                        }),
+
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          " Your Posts",
+                          style: GoogleFonts.acme(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                                color: AppData().mainColor2),
+                          ),
+                        ),
+                        // Posts
+                        Consumer(builder: (_, ref, watch) {
+                          AsyncValue<List<DonorPostModels>> model =
+                              ref.watch(postRiverpod);
+                          return model.when(data: (post) {
+                            return ListView.builder(
+                              padding: const EdgeInsets.only(top: 10),
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: post.length,
+                                itemBuilder: (_, index) {
+                                  return Card(
+                                    margin: const EdgeInsets.only(bottom: 20,left: 7,right: 7),
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "Date : ",
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppData().mainColor2,
+                                                      fontSize: 28,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  post[index]
+                                                      .postDate
+                                                      .toString()
+                                                      .substring(0, 15),
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppData().mainColor2,
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Container(
+                                                  height: height / 3,
+                                                  decoration: BoxDecoration(
+                                                    color: AppData()
+                                                        .mainColor2
+                                                        .withOpacity(.3),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: AppData()
+                                                            .mainColor2
+                                                            .withOpacity(.08),
+                                                        width: 5),
+                                                    image: post[index]
+                                                                .donorImage1
+                                                                .toString() ==
+                                                            "null"
+                                                        ? const DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: AssetImage(
+                                                                "images/noImage1.png"))
+                                                        : DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: NetworkImage(
+                                                              post[index]
+                                                                  .donorImage1
+                                                                  .toString(),
+                                                            )),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  height: height / 3,
+                                                  decoration: BoxDecoration(
+                                                    color: AppData()
+                                                        .mainColor2
+                                                        .withOpacity(.3),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: AppData()
+                                                            .mainColor2
+                                                            .withOpacity(.08),
+                                                        width: 5),
+                                                    image: post[index]
+                                                                .donorImage1
+                                                                .toString() ==
+                                                            "null"
+                                                        ? const DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: AssetImage(
+                                                                "images/noImage1.png"))
+                                                        : DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: NetworkImage(
+                                                              post[index]
+                                                                  .donorImage2
+                                                                  .toString(),
+                                                            )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                                post[index]
+                                                    .donorPost
+                                                    .toString(),
+                                                style: GoogleFonts.kameron(
+                                                  textStyle:   TextStyle(
+                                                      color: AppData().mainColor2,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17),
+                                                )),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ).visible(post[index].donorEmail.toString() ==
+                                      widget.getTokens.toString());
+                                });
+                          }, error: (e, stack) {
+                            return Text(e.toString());
+                          }, loading: () {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                        })
+                      ],
+                    ).visible(data[index].donorEmail.toString() ==
+                        widget.getTokens.toString());
+                  }),
+              onRefresh: () {
+                return Future<void>.delayed(Duration(seconds: 5));
+              });
+        }, error: (e, stack) {
+          return const Text("");
+        }, loading: () {
+          return const CircularProgressIndicator();
+        });
+      }),
     );
   }
 }

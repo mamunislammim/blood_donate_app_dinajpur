@@ -1,5 +1,6 @@
-import 'package:dinajpur_blood_app/App_%20Data/app_color.dart';
+import 'package:dinajpur_blood_app/App_%20Data/app_data.dart';
  import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'blood_donor_list.dart';
 
@@ -22,12 +23,14 @@ class _FindBloodScreenState extends State<FindBloodScreen> {
         centerTitle: true,
         title: Text(
           "Find Blood",
-          style: TextStyle(color: AppData().whiteColor, fontSize: 26),
+          style: GoogleFonts.zenDots(
+            textStyle: TextStyle(color: AppData().whiteColor, fontSize: 26,fontWeight: FontWeight.normal)
+          ),
         ),
         backgroundColor: AppData().appBarColor,
       ),
       body: GridView.builder(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 5),
           itemCount: 8,
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -37,22 +40,37 @@ class _FindBloodScreenState extends State<FindBloodScreen> {
             //childAspectRatio: .9,
           ),
           itemBuilder: (_, index) {
-            return Container(
-              width: width / 2,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                    colors: [AppData().mainColor, AppData().mainTextColor],
-                    end: Alignment.topRight,
-                    begin: Alignment.bottomRight),
-                color: Colors.pink,
+            return  SizedBox(
+              height: width / 2.4,
+              width: width / 2.1,
+              child: Card(
+                surfaceTintColor: Colors.greenAccent,
+                shadowColor: AppData().mainColor,
+                elevation: 7,
+                color: AppData().whiteColor,
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: AppData().whiteColor,
+                      width: 5,
+                    )),
+                child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                        AppData().bloodGroup[index],
+                            // "রক্ত",
+                            style: GoogleFonts.lancelot(
+                                textStyle: TextStyle(
+                                  color: AppData().mainTextColor,
+                                  fontSize: 60,
+                                  fontWeight: FontWeight.bold
+                                ))),
+                      ],
+                    )),
               ),
-              child: Center(
-                  child: Text(
-                AppData().bloodGroup[index],
-                style: TextStyle(
-                    color: AppData().whiteColor, fontSize: height / 10),
-              )),
             ).onTap(() {
                 BloodDonorList(getBloodGroup: AppData().bloodGroup[index],).launch(context);
             });

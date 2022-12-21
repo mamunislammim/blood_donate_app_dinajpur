@@ -3,8 +3,9 @@ import 'package:dinajpur_blood_app/screens/Authentication_section/set_donor_info
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
-import '../../App_ Data/app_color.dart';
+import '../../App_ Data/app_data.dart';
 import 'donor_profile.dart';
 
 class SignUp extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SignUpState extends State<SignUp> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      backgroundColor: AppData().mainColor,
+      backgroundColor: AppData().mainColor2,
       body: ListView(
         padding: EdgeInsets.only(
           top: height / 4,
@@ -91,21 +92,30 @@ class _SignUpState extends State<SignUp> {
           Row(
             children: [
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xff0c76c5),
-                  ),
+                child:Card(
+                  surfaceTintColor: Colors.greenAccent,
+                  shadowColor: AppData().mainColor2,
+                  elevation: 7,
+                  color: AppData().mainColor,
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: AppData().mainColor,
+                        width: 5,
+                      )),
                   child: Center(
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                          color: AppData().whiteColor,
-                          fontSize: height / 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "Sign Up",
+                            // "রক্ত",
+                            style: GoogleFonts.aubrey(
+                                textStyle: TextStyle(
+                                    color: AppData().whiteColor,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold
+                                ))),
+                      )),
                 ).onTap(() async {
                   if (_email.text.isEmptyOrNull) {
                     toast("Enter Email Address");
@@ -124,7 +134,7 @@ class _SignUpState extends State<SignUp> {
                       await prefs.setString('email', _email.text);
 
                       EasyLoading.showSuccess("Sign up Successful");
-                       RegistrationScreen()
+                       RegistrationScreen(getEmail: _email.text.toString(),)
                           .launch(context, isNewTask: true);
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'weak-password') {
@@ -145,7 +155,11 @@ class _SignUpState extends State<SignUp> {
             children: [
               Text(
                 "Already have an Account ?",
-                style: TextStyle(color: AppData().whiteColor.withOpacity(.8)),
+                style: GoogleFonts.aubrey(
+                    textStyle: TextStyle(
+                        color: AppData().whiteColor.withOpacity(.8),
+                        fontSize: 17,
+                    )),
               ),
               const SizedBox(
                 width: 10,
@@ -153,7 +167,12 @@ class _SignUpState extends State<SignUp> {
               Text(
                 "Log in",
                 style:
-                    TextStyle(color: Colors.blue.withOpacity(.8), fontSize: 18),
+                GoogleFonts.aubrey(
+                    textStyle: TextStyle(
+                      color: AppData().whiteColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    )),
               ).onTap(() {
               const LoginScreen().launch(context);
               }),
