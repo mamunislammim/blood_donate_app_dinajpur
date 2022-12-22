@@ -479,7 +479,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         _dateOfBirth,
                         _address.text,
                         donorImageUrl);
-                    FirebaseDatabase.instance
+                    await FirebaseDatabase.instance
                         .ref("Donor Information")
                         .push()
                         .set(models.toJson());
@@ -488,7 +488,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     var tokens = prefs.getString('email');
                     print("token Get : $tokens");
                     EasyLoading.showSuccess("Successful");
-
                     ref.refresh(donorDataRiverpod);
                     await Future<void>.delayed(Duration(seconds: 5));
                     await DonorProfileScreen(

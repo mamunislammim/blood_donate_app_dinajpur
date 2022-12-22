@@ -23,7 +23,7 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   final TextEditingController _postController = TextEditingController();
   String? imageUrl1 = "null";
-  String ? imageUrl2 = "null";
+  String? imageUrl2 = "null";
   String? postDates;
   final ImagePicker _picker = ImagePicker();
   XFile? images1;
@@ -56,7 +56,7 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Consumer(builder: (_,ref,watch){
+    return Consumer(builder: (_, ref, watch) {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -83,14 +83,14 @@ class _PostScreenState extends State<PostScreen> {
                                 borderRadius: BorderRadius.circular(10),
                                 image: images1 != null
                                     ? DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image:
-                                  FileImage(File(images1?.path ?? "")),
-                                )
+                                        fit: BoxFit.fill,
+                                        image: FileImage(
+                                            File(images1?.path ?? "")),
+                                      )
                                     : const DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image:
-                                    AssetImage("images/userIcon.png"))),
+                                        fit: BoxFit.fill,
+                                        image:
+                                            AssetImage("images/userIcon.png"))),
                           ),
                         ),
                         Card(
@@ -129,14 +129,14 @@ class _PostScreenState extends State<PostScreen> {
                                 borderRadius: BorderRadius.circular(10),
                                 image: images2 != null
                                     ? DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image:
-                                  FileImage(File(images2?.path ?? "")),
-                                )
+                                        fit: BoxFit.fill,
+                                        image: FileImage(
+                                            File(images2?.path ?? "")),
+                                      )
                                     : const DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image:
-                                    AssetImage("images/userIcon.png"))),
+                                        fit: BoxFit.fill,
+                                        image:
+                                            AssetImage("images/userIcon.png"))),
                           ),
                         ),
                         Card(
@@ -214,36 +214,36 @@ class _PostScreenState extends State<PostScreen> {
                       )),
                   child: Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Sign Up",
-                            // "রক্ত",
-                            style: GoogleFonts.aubrey(
-                                textStyle: TextStyle(
-                                    color: AppData().whiteColor,
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold))),
-                      )),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Sign Up",
+                        // "রক্ত",
+                        style: GoogleFonts.aubrey(
+                            textStyle: TextStyle(
+                                color: AppData().whiteColor,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold))),
+                  )),
                 ).onTap(() async {
-                    if(_postController.text.isEmptyOrNull){
-                      toast("Please Enter a Comment");
-                    }
-                    else{
-                      postDates = DateTime.now().toString();
-                      EasyLoading.show(status: "Uploading...");
-                      DonorPostModels models = DonorPostModels(widget.donorEmail,
-                          imageUrl1, imageUrl2, _postController.text, postDates);
-                      FirebaseDatabase.instance
-                          .ref("Donor Post")
-                          .push()
-                          .set(models.toJson());
-                      EasyLoading.showSuccess("Successfully");
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setString('email', widget.donorEmail!);
-                      var tokens = prefs.getString('email');
-                      ref.refresh(donorDataRiverpod);
-                      DonorProfileScreen(getTokens: tokens.toString(),).launch(context, isNewTask: true);
-
-                    }
+                  if (_postController.text.isEmptyOrNull) {
+                    toast("Please Enter a Comment");
+                  } else {
+                    postDates = DateTime.now().toString();
+                    EasyLoading.show(status: "Uploading...");
+                    DonorPostModels models = DonorPostModels(widget.donorEmail,
+                        imageUrl1, imageUrl2, _postController.text, postDates);
+                  await  FirebaseDatabase.instance
+                        .ref("Donor Post")
+                        .push()
+                        .set(models.toJson());
+                    EasyLoading.showSuccess("Successfully");
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('email', widget.donorEmail!);
+                    var tokens = prefs.getString('email');
+                    ref.refresh(postRiverpod);
+                    DonorProfileScreen(
+                      getTokens: tokens.toString(),
+                    ).launch(context, isNewTask: true);
+                  }
                 })
               ],
             ),
@@ -251,6 +251,5 @@ class _PostScreenState extends State<PostScreen> {
         ),
       );
     });
-
   }
 }

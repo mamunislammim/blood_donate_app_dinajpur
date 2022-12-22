@@ -233,11 +233,11 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                           surfaceTintColor: Colors.greenAccent,
                           shadowColor: AppData().mainColor2,
                           elevation: 7,
-                          color: AppData().mainColor,
+                          color: AppData().mainColor.withOpacity(.5),
                           shape: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(
-                                color: AppData().mainColor,
+                                color: AppData().mainColor.withOpacity(.3),
                                 width: 5,
                               )),
                           child: Center(
@@ -245,7 +245,7 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text("Create a Post",
                                 // "রক্ত",
-                                style: GoogleFonts.aubrey(
+                                style: GoogleFonts.iceland(
                                     textStyle: TextStyle(
                                         color: AppData().whiteColor,
                                         fontSize: 40,
@@ -274,47 +274,112 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                           AsyncValue<List<DonorPostModels>> model =
                               ref.watch(postRiverpod);
                           return model.when(data: (post) {
-                            return ListView.builder(
-                              padding: const EdgeInsets.only(top: 10),
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: post.length,
-                                itemBuilder: (_, index) {
-                                  return Card(
-                                    margin: const EdgeInsets.only(bottom: 20,left: 7,right: 7),
+                            return ListView(
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              children: [
+                                for (var i = post.length - 1;
+                                    i >= 0;
+                                    i--)
+                                  Card(
+                                    margin: const EdgeInsets.only(
+                                        bottom: 20, left: 7, right: 7),
                                     color: Colors.white,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(
+                                          top: 6, right: 6, left: 6, bottom: 6),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  "Date : ",
-                                                  style: TextStyle(
-                                                      color:
-                                                          AppData().mainColor2,
-                                                      fontSize: 28,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                  flex: 2,
+                                                  child: data[i].donorImagesUrl.toString() == "null" ?
+
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor: AppData()
+                                                        .mainColor2
+                                                        .withOpacity(.3),
+                                                    backgroundImage:
+                                                    const AssetImage("images/userIcon.png")
+                                                  )
+                                                      : CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor: AppData()
+                                                        .mainColor2
+                                                        .withOpacity(.3),
+                                                    backgroundImage:
+                                                    NetworkImage(
+                                                      data[index]
+                                                          .donorImagesUrl
+                                                          .toString(),
+                                                    ),
+                                                  )
+
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Expanded(
+                                                flex: 8,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      data[index].donorName.toString(),
+                                                      style: TextStyle(
+                                                          color: AppData()
+                                                              .mainColor2,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "Blood Donate : ",
+                                                          style: TextStyle(
+                                                              color: AppData()
+                                                                  .mainTextColor
+                                                                  .withOpacity(
+                                                                      .9),
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          post[i]
+                                                              .postDate
+                                                              .toString()
+                                                              .substring(0, 15),
+                                                          style: TextStyle(
+                                                              color: AppData()
+                                                                  .mainTextColor
+                                                                  .withOpacity(
+                                                                      .7),
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
-                                                Text(
-                                                  post[index]
-                                                      .postDate
-                                                      .toString()
-                                                      .substring(0, 15),
-                                                  style: TextStyle(
-                                                      color:
-                                                          AppData().mainColor2,
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 4,
                                           ),
                                           Row(
                                             children: [
@@ -333,7 +398,7 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                                                             .mainColor2
                                                             .withOpacity(.08),
                                                         width: 5),
-                                                    image: post[index]
+                                                    image: post[i]
                                                                 .donorImage1
                                                                 .toString() ==
                                                             "null"
@@ -369,7 +434,7 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                                                             .mainColor2
                                                             .withOpacity(.08),
                                                         width: 5),
-                                                    image: post[index]
+                                                    image: post[i]
                                                                 .donorImage1
                                                                 .toString() ==
                                                             "null"
@@ -389,26 +454,37 @@ class _DonorProfileScreenState extends State<DonorProfileScreen> {
                                               ),
                                             ],
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                post[index]
-                                                    .donorPost
-                                                    .toString(),
-                                                style: GoogleFonts.kameron(
-                                                  textStyle:   TextStyle(
-                                                      color: AppData().mainColor2,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17),
-                                                )),
-                                          )
+                                          SizedBox(
+                                            width: width,
+                                            child: Card(
+                                              color:
+                                                  Colors.brown.withOpacity(.1),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  post[i]
+                                                      .donorPost
+                                                      .toString(),
+                                                  style: GoogleFonts.kameron(
+                                                    textStyle: TextStyle(
+                                                        color: AppData()
+                                                            .postTextColor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 17),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  ).visible(post[index].donorEmail.toString() ==
-                                      widget.getTokens.toString());
-                                });
+                                  ).visible(post[i].donorEmail.toString() ==
+                                      widget.getTokens.toString())
+                              ],
+                            );
                           }, error: (e, stack) {
                             return Text(e.toString());
                           }, loading: () {

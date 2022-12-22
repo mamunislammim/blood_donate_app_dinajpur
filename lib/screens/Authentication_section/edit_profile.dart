@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:dinajpur_blood_app/State_management/riverpod.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -26,7 +25,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _name = TextEditingController();
-   final TextEditingController _phone = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
   final TextEditingController _address = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   String? _dateOfBirth;
@@ -52,7 +51,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     _name.text = widget.donorData.donorName!;
-   _getMail= widget.donorData.donorEmail!;
+    _getMail = widget.donorData.donorEmail!;
     _phone.text = widget.donorData.donorPhone!;
     _dateOfBirth = widget.donorData.donorDateOfBirth;
     hintText = widget.donorData.donorDateOfBirth;
@@ -412,16 +411,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           height: 120,
                           width: 120,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.brown,
-                              image: images == null
-                                  ? const DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage("images/userIcon.png"))
-                                  : DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image:
-                                  FileImage(File(images?.path ?? "")))),
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.brown,
+                            image: donorImageUrl == "null"
+                                ? const DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: AssetImage("images/userIcon.png"))
+                                : DecorationImage(
+                                    fit: BoxFit.fill,
+                                    // image: FileImage(File(images?.path ?? "")),
+                              image: NetworkImage(donorImageUrl.toString()),
+                                  ),
+                          ),
                         ),
                         const Icon(
                           Icons.camera_alt,
@@ -476,12 +477,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     height: 10,
                   ),
 
-                  Text(
-                    "Your Email Address",
-                    style: GoogleFonts.maitree(
-                        textStyle: TextStyle(
-                            color: AppData().whiteColor,
-                            fontWeight: FontWeight.bold)),
+                  Row(
+                    children: [
+                      Text(
+                        "Your Email Address",
+                        style: GoogleFonts.maitree(
+                            textStyle: TextStyle(
+                                color: AppData().whiteColor,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      const SizedBox(width: 10,),
+                      Text(
+                        "( Email can't edit )",
+                        style: GoogleFonts.maitree(
+                            textStyle: TextStyle(
+                                color: AppData().whiteColor.withOpacity(.9),
+                              fontSize: 11
+                                 )),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: height / 15,
@@ -578,7 +592,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           Icons.calendar_month,
                           color: AppData().whiteColor.withOpacity(.7),
                         ),
-                        hintText: "DD : MM : YYY",
+                        hintText: _dateOfBirth.toString(),
                         hintStyle: GoogleFonts.acme(
                           textStyle: TextStyle(
                               color: AppData().whiteColor.withOpacity(.5)),
@@ -739,8 +753,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     textAlignVertical: TextAlignVertical.bottom,
                     maxLines: 2,
                     textStyle: GoogleFonts.questrial(
-                      textStyle:
-                      TextStyle(color: AppData().whiteColor.withOpacity(.7)),
+                      textStyle: TextStyle(
+                          color: AppData().whiteColor.withOpacity(.7)),
                     ),
                     //textStyle: TextStyle(color: AppData().whiteColor),
                     decoration: InputDecoration(
@@ -776,19 +790,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         )),
                     child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Update",
-                              // "রক্ত",
-                              style: GoogleFonts.aubrey(
-                                  textStyle: TextStyle(
-                                      color: AppData().whiteColor,
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold))),
-                        )),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Update",
+                          // "রক্ত",
+                          style: GoogleFonts.aubrey(
+                              textStyle: TextStyle(
+                                  color: AppData().whiteColor,
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold))),
+                    )),
                   ).onTap(() async {
                     if (_name.text.isEmptyOrNull) {
                       toast("Enter Name");
-                    }  else if (_phone.text.isEmptyOrNull) {
+                    } else if (_phone.text.isEmptyOrNull) {
                       toast("Enter Phone Number");
                     } else if (_dateOfBirth.isEmptyOrNull) {
                       toast("Enter Date of birth");
@@ -809,7 +823,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           _dateOfBirth,
                           _address.text,
                           donorImageUrl);
-                      FirebaseDatabase.instance
+                      await FirebaseDatabase.instance
                           .ref("Donor Information")
                           .orderByKey()
                           .get()
@@ -826,10 +840,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           }
                         }
                       });
-                      await EasyLoading.showSuccess(
-                          "Data Uploading Successful");
+                      EasyLoading.showSuccess("Data Uploading Successful");
                       ref.refresh(donorDataRiverpod);
-                        DonorProfileScreen(
+                      DonorProfileScreen(
                         getTokens: _getMail.toString(),
                       ).launch(context);
                     }
